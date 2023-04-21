@@ -2,15 +2,17 @@
 
 ## Overview
 
-The purpose of this project is to scrape data from various chainmail supply vendors to get pricinging data on the rings they sell. I plan to store and organize the data so that comparisons across vendors can be fairly carried out.
+The purpose of this project is to scrape chainmail ring data from various chainmail supply vendors and store the data in a normalized fashion to allow for comparisons between vendors.
+
 
 ## Responsibility
 
-For each of the vendors whose websites I will scrape in this project I will check their website for a robots.txt file and comply with the restrictions set out in it.
+For each of the vendors whose websites I will scrape in this project I have checked their website for a robots.txt file and will comply with the restrictions set out in it.
+
 
 ## Vendors
 
-Using the [vendor page](https://chainmaillers.com/reviews/categories/suppliers.4/) on [chainmaillers.com](https://chainmaillers.com/) I created the following list of potential vendors for scraping. In the chart I will include the name of the vendor as a link to their website, whether or not scraping the vendor's product pages is allowed or not, whether or not I plan to scrape the vendor as well as notes on the vendor.
+Using the [vendor page](https://chainmaillers.com/reviews/categories/suppliers.4/) on [chainmaillers.com](https://chainmaillers.com/) I created the following list of potential vendors for scraping. In the chart I will include the name of the vendor as a link to their website, whether or not scraping the vendor's product pages is allowed or not, whether or not I plan to scrape the vendor, whether or not I have scrapped the vendor as well as notes on the vendor.
 
 | **Vendor**                                                                    | **Scraping Allowed** | **Will Scrape** | **Has Been Scraped** | **Notes**                                                                                  |
 |-------------------------------------------------------------------------------|----------------------|-----------------|----------------------|--------------------------------------------------------------------------------------------|
