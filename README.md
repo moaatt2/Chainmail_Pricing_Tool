@@ -35,3 +35,20 @@ Using the [vendor page](https://chainmaillers.com/reviews/categories/suppliers.4
 | [Maille Order Rings Australia](https://www.mailleorderringsaustralia.com.au/) | No                   | No              | It appears this may be due to using shopify and not customizing product page urls          |
 | [Steampunk Garage](https://www.etsy.com/shop/spgsupplies/?etsrc=sdt)          | No                   | No              | This is an etsy shop(etsy does not allow scraping).                                        |
 | [Toms Ringshop](https://toms-ringshop.at/)                                    | No                   | No              | It appears this may be due to using shopify and not customizing product page urls          |
+
+## Steps
+
+1. Determine list of vendors of interest.
+2. Determine which vendors of interest are scrapable/should be scraped.
+3. For each vendor to be scraped figure out the following:
+    * List of products that need to be scraped.
+    * For each product that needs scraped how to get the following data:
+        * Wire Gauge
+        * Internal Diameter
+        * Quantity
+        * Material
+        * Color
+        * Price
+        * Currency
+4. Find a way to compare the scraped data across vendors.
+5. Find a way to scrape the data periodically and store it.
