@@ -8,6 +8,13 @@ import datetime
 _SLEEP_TIME = 5
 _STARTING_LINK = 'https://theringlord.com/rings/'
 
+
+# Define a logging function to log function outputs
+def log(msg: str) -> None:
+    now = datetime.datetime.now()
+    print(f"Logged {now}: {msg}")
+
+
 #########################
 ### Get Product Pages ###
 #########################
@@ -19,7 +26,7 @@ def get_product_pages(url: str = _STARTING_LINK, sleep_time: int = _SLEEP_TIME, 
     sleep(sleep_time)
 
     now = datetime.datetime.now()
-    print(f'{now}: Checking {url}: ', end='')
+    log(f'Checking {url}')
 
     # Get soup object from URL
     response = requests.get(url)
@@ -30,14 +37,12 @@ def get_product_pages(url: str = _STARTING_LINK, sleep_time: int = _SLEEP_TIME, 
 
     # If page is a product add the url to the file if it is new
     if sku:
-        print('product')
         if url not in links_encountered:
             links_encountered.add(url)
             yield url
     
     # Otherwise find all child products
     else:
-        print('collection')
         products = soup.find_all('li', {'class': 'product'})
 
         # Get all unique product links
@@ -60,9 +65,9 @@ def get_product_pages(url: str = _STARTING_LINK, sleep_time: int = _SLEEP_TIME, 
 
 # Define a temporary page parsing function to help with planning
 def parse_page(url: str) -> None:
-    print(f"parsing: {url}")
+    log(f"parsing: {url}")
 
 
 if __name__ == '__main__':
-    for product_page in get_product_pages():
+    for product_page in get_product_pages('https://theringlord.com/rings/bright-aluminum/machine-cut-rings/'):
         parse_page(product_page)
