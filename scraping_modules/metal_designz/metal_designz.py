@@ -115,7 +115,7 @@ def parse_page(url: str, driver: webdriver) -> dict:
 
     # Define output dictionary
     out = {
-        "time_accessed ":       str(datetime.datetime.now()),
+        "time_accessed":       str(datetime.datetime.now()),
         "sku":                  None,
         "product_name":         None,
         "material":             None,

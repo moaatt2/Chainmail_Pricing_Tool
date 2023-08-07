@@ -89,7 +89,7 @@ def parse_page(url: str, driver:webdriver.Chrome) -> dict:
 
     # Define the output variable
     out = {
-        "time_accessed ":       str(datetime.datetime.now()),
+        "time_accessed":       str(datetime.datetime.now()),
         "url":                  url,
         "sku":                  None,
         "product_name":         None,
