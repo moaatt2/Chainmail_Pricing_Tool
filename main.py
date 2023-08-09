@@ -49,22 +49,26 @@ def add_product(product: dict) -> str:
         {n2n(product['rings_per_bag'])}
     );"""
 
-    print(query)
+    try:
+        # Connect to database
+        with open('envs.json', 'r') as json_file:
+            envs = json.loads(json_file.read())
+            db_creds = envs['db_creds']
+        conn = MySQLConnection(**db_creds)
 
-    # Connect to database
-    with open('envs.json', 'r') as json_file:
-        envs = json.loads(json_file.read())
-        db_creds = envs['db_creds']
-    conn = MySQLConnection(**db_creds)
+        # Run Query
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+    
+    except Exception as e:
+        print(query)
+        raise e
 
-    # Run Query
-    cursor = conn.cursor()
-    cursor.execute(query)
-    conn.commit()
-
-    # Close connection
-    cursor.close()
-    conn.close()
+    finally:
+        # Close connection
+        cursor.close()
+        conn.close()
 
 
 # Start driver
