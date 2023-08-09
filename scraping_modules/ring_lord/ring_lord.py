@@ -314,7 +314,7 @@ if __name__ == '__main__':
 
     options = Options()
     options.add_argument('--headless=new')
-    chrome_path = ChromeDriverManager().install()
+    chrome_path = ChromeDriverManager(version='114.0.5735.90').install()
     chrome_service = Service(chrome_path)
 
     # Start the webdriver
