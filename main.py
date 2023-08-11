@@ -16,13 +16,16 @@ from selenium.webdriver.chrome.options import Options
 
 
 # This helper function is to convert missing values to NULL
-def n2n(obj, q=False):
-    if obj and not q:
-        return obj
-    elif obj and q:
-        return f"'{obj}'"
-    else:
+def n2n(obj, data_type):
+    if not obj:
         return 'NULL'
+    else:
+        if data_type=="VARCHAR":
+            return f"'{obj}'"
+        if data_type == "FLOAT":
+            return obj
+        if data_type == "INT":
+            return obj if obj < 100000 else -1
 
 
 # Write a helper function for adding a product to 
@@ -31,22 +34,22 @@ def add_product(product: dict) -> str:
     query = f"""INSERT INTO 
     scraped_product_info
     VALUES (
-        '{product['time_accessed']}',
-        '{product['url']}',
-        {n2n(product['sku'], True)},
-        {n2n(product['product_name'], True)},
-        {n2n(product['material'], True)},
-        {n2n(product['price'])},
-        {n2n(product['currency'], True)},
-        {n2n(product['wire_diameter_in'])},
-        {n2n(product['wire_diameter_mm'])},
-        {n2n(product['wire_diameter_gauge'], True)},
-        {n2n(product['internal_diameter_in'])},
-        {n2n(product['internal_diameter_mm'])},
-        {n2n(product['aspect_ratio'])},
-        {n2n(product['color'], True)},
-        {n2n(product['bags_in_stock'])},
-        {n2n(product['rings_per_bag'])}
+        {n2n(product['time_accessed'],        "VARCHAR")},
+        {n2n(product['url'],                  "VARCHAR")},
+        {n2n(product['sku'],                  "VARCHAR")},
+        {n2n(product['product_name'],         "VARCHAR")},
+        {n2n(product['material'],             "VARCHAR")},
+        {n2n(product['price'],                "FLOAT")},
+        {n2n(product['currency'],             "VARCHAR")},
+        {n2n(product['wire_diameter_in'],     "FLOAT")},
+        {n2n(product['wire_diameter_mm'],     "FLOAT")},
+        {n2n(product['wire_diameter_gauge'],  "VARCHAR")},
+        {n2n(product['internal_diameter_in'], "FLOAT")},
+        {n2n(product['internal_diameter_mm'], "FLOAT")},
+        {n2n(product['aspect_ratio'],         "FLOAT")},
+        {n2n(product['color'],                "VARCHAR")},
+        {n2n(product['bags_in_stock'],        "INT")},
+        {n2n(product['rings_per_bag'],        "INT")}
     );"""
 
     try:
