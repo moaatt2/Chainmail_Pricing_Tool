@@ -67,7 +67,7 @@ def get_product_pages(url: str = _STARTING_LINK) -> None:
 
     # Iterate through top level links
     for num, link in enumerate(category_links):
-        print(f"Checking cateogry: {num} -  {link}")
+        log(f"Checking cateogry: {num} -  {link}")
         sleep(5)
 
         # Get first page of category
@@ -82,7 +82,7 @@ def get_product_pages(url: str = _STARTING_LINK) -> None:
 
         # Itterate through remaining pages if applicable
         while next_page:
-            print(f'Found New Page: {next_page}')
+            log(f'Found New Page: {next_page}')
             sleep(5)
 
             # Get new page            
@@ -108,6 +108,8 @@ def get_number(string):
 
 # Define a function that returns info about the products on a page given a url and a webdriver
 def parse_page(url: str, driver: webdriver) -> dict:
+    log(f"Parsing: {url}")
+
     # Get the page and wait a bit for it to load
     driver.get(url)
     sleep(4)
