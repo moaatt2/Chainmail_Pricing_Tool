@@ -68,7 +68,7 @@ def get_product_pages(url: str = _STARTING_LINK) -> None:
     # Iterate through top level links
     for num, link in enumerate(category_links):
         log(f"Checking cateogry: {num} -  {link}")
-        sleep(5)
+        sleep(_SLEEP_TIME)
 
         # Get first page of category
         response = requests.get(link)
@@ -83,7 +83,7 @@ def get_product_pages(url: str = _STARTING_LINK) -> None:
         # Itterate through remaining pages if applicable
         while next_page:
             log(f'Found New Page: {next_page}')
-            sleep(5)
+            sleep(_SLEEP_TIME)
 
             # Get new page            
             response = requests.get(next_page)
@@ -112,7 +112,7 @@ def parse_page(url: str, driver: webdriver) -> dict:
 
     # Get the page and wait a bit for it to load
     driver.get(url)
-    sleep(4)
+    sleep(_SLEEP_TIME)
 
 
     # Define output dictionary
@@ -229,7 +229,7 @@ def parse_page(url: str, driver: webdriver) -> dict:
     if qty_select:
         for index in range(1, len(qty_select.options)):
             qty_select.select_by_index(index)
-            sleep(2)
+            sleep(_SLEEP_TIME)
 
 
             # Get Selected Quantity
@@ -258,7 +258,7 @@ def parse_page(url: str, driver: webdriver) -> dict:
             if color_select:
                 for index in range(1, len(color_select.options)):
                     color_select.select_by_index(index)
-                    sleep(2)
+                    sleep(_SLEEP_TIME)
                     out['color'] = color_select.first_selected_option.text
                     yield out
             else:
@@ -269,7 +269,7 @@ def parse_page(url: str, driver: webdriver) -> dict:
     elif color_select:
         for index in range(1, len(color_select.options)):
             color_select.select_by_index(index)
-            sleep(2)
+            sleep(_SLEEP_TIME)
 
 
             # Get SKU
@@ -296,7 +296,7 @@ def parse_page(url: str, driver: webdriver) -> dict:
     elif radio_options:
         for option in radio_options.find_elements(By.CSS_SELECTOR,"label.form-label")[1:]:
             option.click()
-            sleep(2)
+            sleep(_SLEEP_TIME)
 
 
             # Get SKU
@@ -369,6 +369,6 @@ if __name__ == '__main__':
 
     with webdriver.Chrome(options=options, service=chrome_service) as driver:
         for product_page in get_product_pages():
-            sleep(2)
+            sleep(_SLEEP_TIME)
             for product in parse_page(product_page, driver):
                 log(f"found: {product}")

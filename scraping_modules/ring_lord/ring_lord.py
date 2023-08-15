@@ -85,7 +85,7 @@ def parse_page(url: str, driver:webdriver.Chrome) -> dict:
 
         # Get the page and wait for it to load
     driver.get(url)
-    sleep(3)
+    sleep(_SLEEP_TIME)
 
     # Define the output variable
     out = {
@@ -230,7 +230,7 @@ def parse_page(url: str, driver:webdriver.Chrome) -> dict:
     # Iterate through options
     for option in options:
         option.click()
-        sleep(3)
+        sleep(_SLEEP_TIME)
 
         # Get SKU
         sku = driver.find_element(By.XPATH, "//dt[contains(text(), 'SKU:')]/following-sibling::dd").text
@@ -320,6 +320,6 @@ if __name__ == '__main__':
     # Start the webdriver
     with webdriver.Chrome(options=options, service=chrome_service) as driver:
         for product_page in get_product_pages():
-            sleep(2)
+            sleep(_SLEEP_TIME)
             for product in parse_page(product_page, driver):
                 log(f"found: {product}")
