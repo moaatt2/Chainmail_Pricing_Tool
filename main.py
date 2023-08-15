@@ -6,10 +6,11 @@ from mysql.connector import MySQLConnection, Error
 
 # Import modules
 import scraping_modules.ring_lord.ring_lord as ring_lord
+import scraping_modules.metal_designz.metal_designz as metal_designz
 
 
 # Selenium Scraping imports
-from selenium import webdriver 
+from selenium import webdriver  
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
@@ -80,6 +81,12 @@ options.add_argument('--headless=new')
 chrome_path = ChromeDriverManager(version='114.0.5735.90').install()
 chrome_service = Service(chrome_path)
 with webdriver.Chrome(options=options, service=chrome_service) as driver:
+    
+    # Parse Metal Designz Pages
+    for page_link in metal_designz.get_product_pages():
+        time.sleep(2)
+        for product in metal_designz.parse_page(page_link, driver):
+            add_product(product)
 
     # Parse Ring Lord Pages
     for page_link in ring_lord.get_product_pages():
