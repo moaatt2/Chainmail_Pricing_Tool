@@ -16,7 +16,9 @@ from selenium.webdriver.chrome.options import Options
 import selenium.common.exceptions as sel_exceptions
 
 # Set Constants
-_SLEEP_TIME = 5
+_REQUEST_DELAY_TIME = 5
+_PAGE_LOAD_TIME = 5
+_OPTION_LOAD_TIME = 5
 _STARTING_LINK = 'https://theringlord.com/rings/'
 
 
@@ -32,9 +34,9 @@ def log(msg: str) -> None:
 
 
 # Define a function to get all the product pages from The Ring Lord's Website
-def get_product_pages(url: str = _STARTING_LINK, sleep_time: int = _SLEEP_TIME, links_encountered: set = set()) -> str:
+def get_product_pages(url: str = _STARTING_LINK, request_delay_time: int = _REQUEST_DELAY_TIME, links_encountered: set = set()) -> str:
     # Ensure time between pages to scrape responsibly
-    sleep(sleep_time)
+    sleep(request_delay_time)
 
     now = datetime.datetime.now()
     log(f'Checking {url}')
@@ -66,7 +68,7 @@ def get_product_pages(url: str = _STARTING_LINK, sleep_time: int = _SLEEP_TIME, 
         
         # Parse all product links
         for link in unique_links:
-            yield from get_product_pages(link, sleep_time, links_encountered)
+            yield from get_product_pages(link, request_delay_time, links_encountered)
 
 
 ###########################
@@ -85,7 +87,7 @@ def parse_page(url: str, driver:webdriver.Chrome) -> dict:
 
         # Get the page and wait for it to load
     driver.get(url)
-    sleep(_SLEEP_TIME)
+    sleep(_PAGE_LOAD_TIME)
 
     # Define the output variable
     out = {
@@ -230,7 +232,7 @@ def parse_page(url: str, driver:webdriver.Chrome) -> dict:
     # Iterate through options
     for option in options:
         option.click()
-        sleep(_SLEEP_TIME)
+        sleep(_OPTION_LOAD_TIME)
 
         # Get SKU
         sku = driver.find_element(By.XPATH, "//dt[contains(text(), 'SKU:')]/following-sibling::dd").text
@@ -320,6 +322,6 @@ if __name__ == '__main__':
     # Start the webdriver
     with webdriver.Chrome(options=options, service=chrome_service) as driver:
         for product_page in get_product_pages():
-            sleep(_SLEEP_TIME)
+            sleep(2)
             for product in parse_page(product_page, driver):
                 log(f"found: {product}")
