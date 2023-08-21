@@ -14,9 +14,10 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
 
 # Set Variables
-_SLEEP_TIME = 5
+_REQUEST_DELAY_TIME = 5
+_PAGE_LOAD_TIME = 5
+_OPTION_LOAD_TIME = 5
 _STARTING_LINK = 'https://www.metaldesignz.com/jump-rings/'
-_LINK_FILE_PATH = '../../product_page_listings/metal_designz/metal_designz_products.csv'
 
 
 # Define a logging function to log function outputs
@@ -67,8 +68,8 @@ def get_product_pages(url: str = _STARTING_LINK) -> None:
 
     # Iterate through top level links
     for num, link in enumerate(category_links):
-        print(f"Checking cateogry: {num} -  {link}")
-        sleep(5)
+        log(f"Checking cateogry: {num} -  {link}")
+        sleep(_REQUEST_DELAY_TIME)
 
         # Get first page of category
         response = requests.get(link)
@@ -82,8 +83,8 @@ def get_product_pages(url: str = _STARTING_LINK) -> None:
 
         # Itterate through remaining pages if applicable
         while next_page:
-            print(f'Found New Page: {next_page}')
-            sleep(5)
+            log(f'Found New Page: {next_page}')
+            sleep(_REQUEST_DELAY_TIME)
 
             # Get new page            
             response = requests.get(next_page)
@@ -108,14 +109,17 @@ def get_number(string):
 
 # Define a function that returns info about the products on a page given a url and a webdriver
 def parse_page(url: str, driver: webdriver) -> dict:
+    log(f"Parsing: {url}")
+
     # Get the page and wait a bit for it to load
     driver.get(url)
-    sleep(4)
+    sleep(_PAGE_LOAD_TIME)
 
 
     # Define output dictionary
     out = {
-        "time_accessed ":       str(datetime.datetime.now()),
+        "time_accessed":       str(datetime.datetime.now()),
+        "url":                  url,
         "sku":                  None,
         "product_name":         None,
         "material":             None,
@@ -226,7 +230,7 @@ def parse_page(url: str, driver: webdriver) -> dict:
     if qty_select:
         for index in range(1, len(qty_select.options)):
             qty_select.select_by_index(index)
-            sleep(2)
+            sleep(_OPTION_LOAD_TIME)
 
 
             # Get Selected Quantity
@@ -255,7 +259,7 @@ def parse_page(url: str, driver: webdriver) -> dict:
             if color_select:
                 for index in range(1, len(color_select.options)):
                     color_select.select_by_index(index)
-                    sleep(2)
+                    sleep(_OPTION_LOAD_TIME)
                     out['color'] = color_select.first_selected_option.text
                     yield out
             else:
@@ -266,7 +270,7 @@ def parse_page(url: str, driver: webdriver) -> dict:
     elif color_select:
         for index in range(1, len(color_select.options)):
             color_select.select_by_index(index)
-            sleep(2)
+            sleep(_OPTION_LOAD_TIME)
 
 
             # Get SKU
@@ -293,7 +297,7 @@ def parse_page(url: str, driver: webdriver) -> dict:
     elif radio_options:
         for option in radio_options.find_elements(By.CSS_SELECTOR,"label.form-label")[1:]:
             option.click()
-            sleep(2)
+            sleep(_OPTION_LOAD_TIME)
 
 
             # Get SKU

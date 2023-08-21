@@ -1,2 +1,6 @@
 .venv/*
 notebooks/*.csv
+.vscode/*
+.env
+envs.json
+__pycache__
